@@ -42,7 +42,7 @@ public class Game extends Activity {
 
     public static float SCALE;
 
-    public static final String VERSAO = "1.0.4.1";
+    public static final String VERSAO = "1.1";
     public static boolean DEBUG = true;
 
 
