@@ -1,0 +1,39 @@
+
+<resources>
+    <string name="app_name">Blue Box</string>
+
+    <string name="info_1">First game in Box Games series.</string>
+    <string name="info_2">Developed by Guilherme Frota</string>
+    <string name="info_3">who studies computer science</string>
+    <string name="info_4">and since university is always on strike</string>
+    <string name="info_5">Guilherme has a lot of free time.</string>
+    <string name="info_6">He decided to learn android and end</string>
+    <string name="info_7">you and your friend\'s boredom ;)</string>
+    <string name="info_8"> </string>
+
+
+    <string name="versao">Version </string>
+
+    <string name="high_score">Best Score:</string>
+
+    <string name="max_vidas" >Max Life Total: </string>
+    <string name="max_tick" >Best Time Between Hits: </string>
+
+    <string name="novo_jogo_botao" >NEW GAME</string>
+    <string name="high_score_botao" >HIGHSCORES</string>
+    <string name="info_botao" >INFO</string>
+    <string name="voltar_botao" >BACK</string>
+    <string name="tela_inicial_botao" >HOME</string>
+
+    <string name="pontos" >Score</string>
+    <string name="pontos_final" >Final Score</string>
+
+    <string name="bateu_recorde" >YEAAH! This is your best score!</string>
+    <string name="recorde" >Record</string>
+
+
+    <string name="nivel" >Level</string>
+
+    <string name="pausado" >Paused</string>
+    <string name="pausado_frase" >Hold the blinking ball to resume</string>
+</resources>
