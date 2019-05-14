@@ -8,6 +8,9 @@ One thumb is what you need, avoid falling blocks and get all lifes. As time pass
 **Video Demo**
 https://www.youtube.com/watch?v=X3sYdaom-mk
 
+**Play Store**
+https://play.google.com/store/apps/details?id=self.frota.guilherme.teste
+
 **Home**<br>
 ![Home](https://github.com/guiquintelas/blue-box/blob/master/static/home.png)
 
