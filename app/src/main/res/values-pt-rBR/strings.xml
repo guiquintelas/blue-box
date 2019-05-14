@@ -1,0 +1,40 @@
+
+<resources>
+    <string name="app_name">Blue Box</string>
+
+    <string name="info_1">Primeiro jogo da serie Box Games.</string>
+    <string name="info_2">Desenvolvido por Guilherme Frota</string>
+    <string name="info_3">estudante de Ciência da Computação</string>
+    <string name="info_4">e como a faculdade tá sempre em greve</string>
+    <string name="info_5">esse Guilherme tem bastante tempo livre.</string>
+    <string name="info_6">Decidiu aprender android e acabar</string>
+    <string name="info_7">com o tédio de você e do amiguinho</string>
+    <string name="info_8">que você vai mostrar esse jogo ;)</string>
+    <string name="versao">Versão </string>
+
+    <string name="high_score">Melhor Score:</string>
+
+    <string name="max_vidas" >Maior Número de Vidas: </string>
+    <string name="max_tick" >Maior Tempo sem Bater: </string>
+
+
+    <string name="novo_jogo_botao" >NOVO JOGO</string>
+    <string name="high_score_botao" >RECORDES</string>
+    <string name="info_botao" >INFO</string>
+    <string name="voltar_botao" >VOLTAR</string>
+    <string name="tela_inicial_botao" >TELA INICIAL</string>
+
+    <string name="pontos" >Score</string>
+    <string name="pontos_final" >Score Final</string>
+
+    <string name="bateu_recorde" >UHULL! Você bateu seu recorde!</string>
+    <string name="recorde" >Recorde</string>
+
+
+    <string name="nivel" >Nível</string>
+
+    <string name="pausado" >Pausado</string>
+    <string name="pausado_frase" >Segure a bola para continuar</string>
+
+
+</resources>
