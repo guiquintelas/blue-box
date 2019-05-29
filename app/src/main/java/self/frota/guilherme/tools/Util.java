@@ -65,28 +65,28 @@ public class Util {
     }
 
     public static float inDP(float pixel) {
-        return (pixel * Game.SCALE + 0.5f);
+        return (pixel * Game.SCALE);
     }
 
     public static float inDP(int pixel) {
-        return (pixel * Game.SCALE + 0.5f);
+        return (pixel * Game.SCALE);
     }
 
     public static double inDP(double pixel) {
-        return (pixel * Game.SCALE + 0.5f);
+        return (pixel * Game.SCALE);
     }
 
 
     public static float inPX(float dp) {
-        return (dp / Game.SCALE + 0.5f);
+        return (dp / Game.SCALE);
     }
 
     public static float inPX(int dp) {
-        return (dp / Game.SCALE + 0.5f);
+        return (dp / Game.SCALE);
     }
 
     public static double inPX(double dp) {
-        return (dp / Game.SCALE + 0.5f);
+        return (dp / Game.SCALE);
     }
 
 }

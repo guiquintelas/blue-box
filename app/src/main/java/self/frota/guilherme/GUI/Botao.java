@@ -96,6 +96,10 @@ public abstract class Botao extends GameObj {
 
     public abstract void acao();
 
+    public void acaoPreAni() {
+
+    };
+
     private void acaoAni(float x, float y) {
         isAni = true;
         xAni = x;
@@ -113,6 +117,7 @@ public abstract class Botao extends GameObj {
 
         aniLoop.setLoop(true);
 
+        acaoPreAni();
 
         new Timer(20) {
             @Override

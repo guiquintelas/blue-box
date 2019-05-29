@@ -22,6 +22,7 @@ public abstract class FallingObj extends GameObj {
     protected Player player;
 
     private double speed;
+    private double startSpeed;
     private float size;
     private int cor;
 
@@ -34,7 +35,7 @@ public abstract class FallingObj extends GameObj {
         this.cor = cor;
         this.size = size;
 
-        todosFallingObj.add(this);
+        init();
     }
 
     public FallingObj(MenuState menuState, float x, float y, float size, double speed, int cor) {
@@ -44,9 +45,13 @@ public abstract class FallingObj extends GameObj {
         this.cor = cor;
         this.size = size;
 
-        todosFallingObj.add(this);
+        init();
     }
 
+    private void init() {
+        startSpeed = speed;
+        todosFallingObj.add(this);
+    }
 
     @Override
     public void update() {
@@ -102,5 +107,17 @@ public abstract class FallingObj extends GameObj {
         for (int i = FallingObj.todosFallingObj.size()-1; i >= 0; i--) {
             FallingObj.todosFallingObj.get(i).update();
         }
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public double getStartSpeed() {
+        return startSpeed;
     }
 }

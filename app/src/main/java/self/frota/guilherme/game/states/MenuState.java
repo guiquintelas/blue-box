@@ -1,10 +1,12 @@
 package self.frota.guilherme.game.states;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.util.Log;
 
 import self.frota.guilherme.GUI.Botao;
 import self.frota.guilherme.R;
@@ -14,6 +16,8 @@ import self.frota.guilherme.game.objs.ObjMenu;
 import self.frota.guilherme.principal.Game;
 import self.frota.guilherme.principal.GameThread;
 import self.frota.guilherme.tools.Util;
+import self.frota.guilherme.tools.Variator;
+import self.frota.guilherme.tools.VariatorNumero;
 
 /**
  * Created by Frota on 14/08/2017.
@@ -27,13 +31,16 @@ public class MenuState extends GameState {
     private Botao botaoInfo;
     private Botao botaoVoltar;
 
-
     private static boolean isHighScore = false;
     private static boolean isInfo = false;
 
     private int tickInit;
 
     private Bitmap infoImg = null;
+    private Variator speedVariator;
+
+    private double speedMultiplier = 100;
+
     @Override
     protected void initState() {
         tickInit = GameThread.TOTAL_TICK;
@@ -41,8 +48,31 @@ public class MenuState extends GameState {
         isHighScore = false;
         isInfo = false;
 
+        initButtons();
+        initVariators();
+    }
 
-        botaoNovoJogo = new Botao(this, 0, Game.getTela().getHeight()/2, Util.inDP(140), Util.inDP(38), R.string.novo_jogo_botao) {
+    private void initVariators() {
+        speedVariator = new Variator(new VariatorNumero() {
+            @Override
+            public double getNumero() {
+                return speedMultiplier;
+            }
+
+            @Override
+            public void setNumero(double numero) {
+                speedMultiplier = Util.limita(numero, 0, 100);
+            }
+
+            @Override
+            public boolean devoContinuar() {
+                return true;
+            }
+        });
+    }
+
+    private void initButtons() {
+        botaoNovoJogo = new Botao(this, 0, Game.getTela().getHeight()/2f, Util.inDP(140), Util.inDP(38), R.string.novo_jogo_botao) {
             @Override
             public void acao() {
                 game.setGameState(new JogoState());
@@ -50,60 +80,64 @@ public class MenuState extends GameState {
         };
         botaoNovoJogo.centerX();
 
-        botaoScore = new Botao(this, 0, Game.getTela().getHeight()/2 + Util.inDP(66), Util.inDP(140), Util.inDP(38), R.string.high_score_botao) {
+        botaoScore = new Botao(this, 0, Game.getTela().getHeight()/2f + Util.inDP(66), Util.inDP(140), Util.inDP(38), R.string.high_score_botao) {
             @Override
             public void acao() {
                 if (isHighScore) return;
 
-                botaoInfo.setAtivo(false);
-                botaoScore.setAtivo(false);
-                botaoNovoJogo.setAtivo(false);
+                setHighScore();
+            }
 
-                botaoVoltar.setAtivo(true);
-
-                MenuState.setHighScore();
+            @Override
+            public void acaoPreAni() {
+                startSpeedVariator(false);
             }
         };
         botaoScore.centerX();
 
-        botaoInfo = new Botao(this, 0, Game.getTela().getHeight()/2 + Util.inDP(133), Util.inDP(140), Util.inDP(38), R.string.info_botao) {
+        botaoInfo = new Botao(this, 0, Game.getTela().getHeight()/2f + Util.inDP(133), Util.inDP(140), Util.inDP(38), R.string.info_botao) {
             @Override
             public void acao() {
                 if (isInfo) return;
 
-                botaoInfo.setAtivo(false);
-                botaoScore.setAtivo(false);
-                botaoNovoJogo.setAtivo(false);
+                setInfo();
+            }
 
-                botaoVoltar.setAtivo(true);
-
-                MenuState.setInfo();
+            @Override
+            public void acaoPreAni() {
+                startSpeedVariator(false);
             }
         };
         botaoInfo.centerX();
 
-        botaoVoltar = new Botao(this, 0, Game.getTela().getHeight()/2 + Util.inDP(133), Util.inDP(140), Util.inDP(38), R.string.voltar_botao) {
+        botaoVoltar = new Botao(this, 0, Game.getTela().getHeight()/2f + Util.inDP(133), Util.inDP(140), Util.inDP(38), R.string.voltar_botao) {
             @Override
             public void acao() {
-                botaoInfo.setAtivo(true);
-                botaoScore.setAtivo(true);
-                botaoNovoJogo.setAtivo(true);
+               setMenu();
+            }
 
-                if (isInfo) {
-                    isInfo = false;
-                }
-
-                if (isHighScore) {
-                    isHighScore = false;
-                }
-
-                botaoVoltar.setAtivo(false);
+            @Override
+            public void acaoPreAni() {
+                startSpeedVariator(true);
             }
         };
         botaoVoltar.centerX();
         botaoVoltar.setAtivo(false);
     }
 
+    private void startSpeedVariator(boolean becomingMenu) {
+        speedVariator.variar(false);
+
+        int variatorTickDuration = 30;
+
+        if (becomingMenu) {
+            speedVariator.fadeInSin(0, 100, variatorTickDuration);
+        } else {
+            speedVariator.fadeOutSin(100, 0, variatorTickDuration);
+        }
+
+        speedVariator.variar(true);
+    }
 
     @Override
     protected void closeState() {
@@ -131,16 +165,30 @@ public class MenuState extends GameState {
     protected void updateState() {
         if (!isInfo && !isHighScore)  {
             criaPedra();
-            FallingObj.updateTodos();
         }
+
+        updateFallingObjs();
+    }
+
+    private void updateFallingObjs() {
+        for (int i = FallingObj.todosFallingObj.size()-1; i >= 0; i--) {
+            FallingObj obj = FallingObj.todosFallingObj.get(i);
+            updateFallingObjSpeed(obj);
+            obj.update();
+        }
+    }
+
+    private void updateFallingObjSpeed(FallingObj obj) {
+        double newSpeed = (obj.getStartSpeed() / 100) * speedMultiplier;
+        newSpeed = Util.limita(newSpeed, 0, obj.getStartSpeed());
+        obj.setSpeed(newSpeed);
     }
 
 
     private void criaPedra() {
         if (GameThread.TOTAL_TICK - tickInit > 25 && GameThread.TOTAL_TICK % 5 == 1 && FallingObj.todosFallingObj.size() < 30) {
-            new ObjMenu(this, Util.randomFloat(0, Game.getTela().getWidth() - 50), Util.randomDouble(4, 8)/1.5);
+            new ObjMenu(this, Util.randomFloat(0, Game.getTela().getWidth() - 50), Util.randomDouble(2.5, 5.2));
         }
-
     }
 
 
@@ -175,8 +223,6 @@ public class MenuState extends GameState {
         botaoInfo.draw(canvas, tintaPai);
         botaoNovoJogo.draw(canvas, tintaPai);
         botaoScore.draw(canvas, tintaPai);
-
-        //botaoTeste.draw(canvas, tintaPai);
     }
 
     private void drawTitulo(Canvas canvas) {
@@ -195,14 +241,15 @@ public class MenuState extends GameState {
 
         tinta.setColor(Color.BLUE);
         tinta.setShadowLayer(0.1f, 1.5f, 1.5f, Color.WHITE);
-        canvas.drawText("Blue", canvas.getWidth()/2, Util.inDP(167), tinta);
+        canvas.drawText("Blue", canvas.getWidth()/2f, Util.inDP(167), tinta);
 
 
         tinta.setTypeface(Util.FONT_BOTAO);
         tinta.setTextSize(Util.inDP(25));
         tinta.setShadowLayer(0, 0, 0, 0);
         tinta.setColor(Color.WHITE);
-        canvas.drawText("BOX", canvas.getWidth()/2, Util.inDP(194), tinta);
+        canvas.drawText("BOX", canvas.getWidth()/2f, Util.inDP(194), tinta);
+    }
 
     private void createInfoImg() {
         Bitmap bitmap = Game.getTela().getBitmap();
@@ -269,7 +316,7 @@ public class MenuState extends GameState {
         tintaPreta.setColor(Color.BLACK);
         tintaPreta.setAlpha(155);
 
-        canvas.drawRect(0, canvas.getHeight()/2 - Util.inDP(80), canvas.getWidth(), canvas.getHeight()/2 + Util.inDP(80), tintaPreta);
+        canvas.drawRect(0, canvas.getHeight()/2f - Util.inDP(80), canvas.getWidth(), canvas.getHeight()/2f + Util.inDP(80), tintaPreta);
 
 
         Paint tinta = new Paint(tintaPai);
@@ -279,18 +326,18 @@ public class MenuState extends GameState {
         tinta.setTextAlign(Paint.Align.CENTER);
 
         int off = -50;
-        canvas.drawText(game.getString(R.string.high_score) + " " + game.getDados().getInt("maiorScore", 0), canvas.getWidth()/2, canvas.getHeight()/2 + Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.high_score) + " " + Game.getDados().getInt("maiorScore", 0), canvas.getWidth()/2f, canvas.getHeight()/2f + Util.inDP(off), tinta);
 
 
         off += 50;
         tinta.setTextSize(Util.inDP(24));
-        canvas.drawText(game.getString(R.string.max_vidas) + " " + game.getDados().getInt("maxNumVida", 0), canvas.getWidth()/2, canvas.getHeight()/2 + Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.max_vidas) + " " + Game.getDados().getInt("maxNumVida", 0), canvas.getWidth()/2f, canvas.getHeight()/2f + Util.inDP(off), tinta);
 
         off += 50;
         tinta.setTextSize(Util.inDP(24));
 
-        int minutosMax = game.getDados().getInt("maxTick", 0)/60;
-        int segundosMax = game.getDados().getInt("maxTick", 0);
+        int minutosMax = Game.getDados().getInt("maxTick", 0)/60;
+        int segundosMax = Game.getDados().getInt("maxTick", 0);
         while (segundosMax >= 60) segundosMax -= 60;
         String segundosMaxStr;
         if (segundosMax < 10) {
@@ -299,7 +346,7 @@ public class MenuState extends GameState {
             segundosMaxStr = segundosMax + "";
         }
 
-        canvas.drawText(game.getString(R.string.max_tick) + " " + minutosMax + ":" + segundosMaxStr, canvas.getWidth()/2,canvas.getHeight()/2 + Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.max_tick) + " " + minutosMax + ":" + segundosMaxStr, canvas.getWidth()/2f,canvas.getHeight()/2f + Util.inDP(off), tinta);
 
     }
 
@@ -312,14 +359,42 @@ public class MenuState extends GameState {
      */
 
 
-    private static void setInfo() {
+    private void setInfo() {
+        botaoInfo.setAtivo(false);
+        botaoScore.setAtivo(false);
+        botaoNovoJogo.setAtivo(false);
+
+        botaoVoltar.setAtivo(true);
+
         isInfo = true;
         isHighScore = false;
     }
 
 
-    private static void setHighScore() {
+    private void setHighScore() {
+        botaoInfo.setAtivo(false);
+        botaoScore.setAtivo(false);
+        botaoNovoJogo.setAtivo(false);
+
+        botaoVoltar.setAtivo(true);
+
         isInfo = false;
         isHighScore = true;
+    }
+
+    private void setMenu() {
+        botaoInfo.setAtivo(true);
+        botaoScore.setAtivo(true);
+        botaoNovoJogo.setAtivo(true);
+
+        if (isInfo) {
+            isInfo = false;
+        }
+
+        if (isHighScore) {
+            isHighScore = false;
+        }
+
+        botaoVoltar.setAtivo(false);
     }
 }
