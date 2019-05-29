@@ -1,5 +1,6 @@
 package self.frota.guilherme.principal;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import android.view.SurfaceHolder;
@@ -25,17 +26,11 @@ public class GameSurface extends SurfaceView implements SurfaceHolder.Callback {
         // Sét callback.
         this.getHolder().addCallback(this);
 
-        /*Display display = game.getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y - (int)Util.inDP(50);
+        setDrawingCacheEnabled(true);
+    }
 
-        RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
-        //layout.topMargin = (int)Util.inDP(50);
-        this.setLayoutParams(layout);*/
-
-
-
+    public Bitmap getBitmap(){
+        return this.getDrawingCache();
     }
 
 

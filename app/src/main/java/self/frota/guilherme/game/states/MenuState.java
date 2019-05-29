@@ -33,6 +33,7 @@ public class MenuState extends GameState {
 
     private int tickInit;
 
+    private Bitmap infoImg = null;
     @Override
     protected void initState() {
         tickInit = GameThread.TOTAL_TICK;
@@ -203,10 +204,11 @@ public class MenuState extends GameState {
         tinta.setColor(Color.WHITE);
         canvas.drawText("BOX", canvas.getWidth()/2, Util.inDP(194), tinta);
 
-    }
+    private void createInfoImg() {
+        Bitmap bitmap = Game.getTela().getBitmap();
 
+        Canvas canvas = new Canvas(bitmap);
 
-    private void drawInfo(Canvas canvas) {
         Paint tintaPreta = new Paint();
         tintaPreta.setColor(Color.BLACK);
         tintaPreta.setAlpha(155);
@@ -222,34 +224,44 @@ public class MenuState extends GameState {
         float fontSize = 27;
 
         tinta.setTextSize(Util.inDP(fontSize + 6));
-        canvas.drawText("INFO", canvas.getWidth()/2, Util.inDP(105), tinta);
+        canvas.drawText("INFO", canvas.getWidth()/2f, Util.inDP(105), tinta);
 
         tinta.setTextSize(Util.inDP(fontSize - 8));
         int off = 150;
         int espaco = 23;
 
-        canvas.drawText(game.getString(R.string.info_1), canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.info_1), canvas.getWidth()/2f, Util.inDP(off), tinta);
         off += espaco + 10;
-        canvas.drawText(game.getString(R.string.info_2), canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.info_2), canvas.getWidth()/2f, Util.inDP(off), tinta);
         off += espaco;
-        canvas.drawText(game.getString(R.string.info_3), canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.info_3), canvas.getWidth()/2f, Util.inDP(off), tinta);
         off += espaco;
 
-        canvas.drawText(game.getString(R.string.info_4), canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.info_4), canvas.getWidth()/2f, Util.inDP(off), tinta);
         off += espaco;
-        canvas.drawText(game.getString(R.string.info_5), canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.info_5), canvas.getWidth()/2f, Util.inDP(off), tinta);
         off += espaco + 10;
 
-        canvas.drawText(game.getString(R.string.info_6), canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.info_6), canvas.getWidth()/2f, Util.inDP(off), tinta);
         off += espaco;
-        canvas.drawText(game.getString(R.string.info_7), canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.info_7), canvas.getWidth()/2f, Util.inDP(off), tinta);
         off += espaco;
-        canvas.drawText(game.getString(R.string.info_8), canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.info_8), canvas.getWidth()/2f, Util.inDP(off), tinta);
         off += espaco + 20;
 
 
-        canvas.drawText(game.getString(R.string.versao) + " " + Game.VERSAO, canvas.getWidth()/2, Util.inDP(off), tinta);
+        canvas.drawText(game.getString(R.string.versao) + " " + Game.VERSAO, canvas.getWidth()/2f, Util.inDP(off), tinta);
 
+        infoImg = bitmap;
+    }
+
+    private void drawInfo(Canvas canvas) {
+        if (infoImg != null) {
+            canvas.drawBitmap(infoImg, 0, 0, null);
+
+        } else {
+            createInfoImg();
+        }
     }
 
     private void drawScore(Canvas canvas, Paint tintaPai) {
