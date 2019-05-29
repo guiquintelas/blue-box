@@ -61,7 +61,7 @@ public class Player extends GameObj {
         this.height = width;
         this.initSize = width;
         this.x = tela.getWidth()/2f - width/2;
-        this.y = tela.getHeight() - Util.inDP(100);
+        this.y = tela.getHeight() - Util.inDP(120);
         this.gameState = state;
         this.tickUltimoHit = state.getTickInit();
     }
@@ -173,7 +173,7 @@ public class Player extends GameObj {
 
         varAlphaBola.pararOscilar();
         varAlphaBola.variar(false);
-        varAlphaBola.oscilar(32, 80, true);
+        varAlphaBola.oscilar(32, 100, true);
         varAlphaBola.variar(true);
     }
 
@@ -297,7 +297,10 @@ public class Player extends GameObj {
             tintaBola.setAlpha(255 - (int)(alphaBola * 7.96875));
 
             tintaBola.setMaskFilter(new BlurMaskFilter(alphaBola + 4, BlurMaskFilter.Blur.NORMAL));
-            canvas.drawOval(getX() - Util.inDP(5), getY() + Util.inDP(50) - Util.inDP(5), getX() + width + Util.inDP(5), getY() + Util.inDP(50) + height + Util.inDP(5), tintaBola);
+            canvas.drawOval(getX() - Util.inDP(5),
+                            getY() + Util.inDP(80) - Util.inDP(5),
+                            getX() + width + Util.inDP(5),
+                            getY() + Util.inDP(80) + height + Util.inDP(5), tintaBola);
         }
 
 
