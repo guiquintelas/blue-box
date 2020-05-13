@@ -1,21 +1,28 @@
 # Blue Box
-Casual android game made in 2017 from pure java.
+Casual android game made in 2017 from scratch.
 
-Let's make your commuting a little less boring?
+> Let's make your commuting a little less boring?
+> 
+> One thumb is what you need, avoid falling blocks and get all lives. As time passes it gets > faster, like your commute after playing this game. Challenge your friends, compare high > scores. Updates coming soon.
 
-One thumb is what you need, avoid falling blocks and get all lifes. As time passes it gets faster, like your commute after playing this game. Chalenge your friends, compare high scores. Updates coming soon.
+**Video Demo**  
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=X3sYdaom-mk
+" target="_blank"><img src="http://img.youtube.com/vi/X3sYdaom-mk/0.jpg" 
+alt="video" width="240" height="180" border="10" /></a>
 
-**Video Demo**
-https://www.youtube.com/watch?v=X3sYdaom-mk
-
-**Play Store**
+**Play Store**  
 https://play.google.com/store/apps/details?id=self.frota.guilherme.teste
 
-**Home**<br>
-![Home](https://github.com/guiquintelas/blue-box/blob/master/static/home.png)
+**Sreenshots**  
+![Home](static/home.png)
+![Game](static/game.png)
+![Info](static/info.png)
 
-**Game**<br>
-![Game](https://github.com/guiquintelas/blue-box/blob/master/static/game.png)
-
-**Info**<br>
-![Info](https://github.com/guiquintelas/blue-box/blob/master/static/info.png)
+# Features:
+- Bilingual support (Portuguese and English)
+- Uses its own Game Engine (Based on [MasterEngine](https://github.com/guiquintelas/master-engine)) 
+- Advanced game progression algorithm, getting progressively harder and challenging
+- Balanced across multiple mobile screens sizes, respecting pixel density and dimensions 
+- Custom font
+- Pause/Resume 
+- Highscore tracking 
