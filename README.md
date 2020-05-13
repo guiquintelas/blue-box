@@ -6,9 +6,7 @@ Casual android game made in 2017 from scratch.
 > One thumb is what you need, avoid falling blocks and get all lives. As time passes it gets > faster, like your commute after playing this game. Challenge your friends, compare high > scores. Updates coming soon.
 
 **Video Demo**  
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=X3sYdaom-mk
-" target="_blank"><img src="http://img.youtube.com/vi/X3sYdaom-mk/0.jpg" 
-alt="video" width="240" height="180" border="10" /></a>
+https://www.youtube.com/watch?v=X3sYdaom-mk
 
 **Play Store**  
 https://play.google.com/store/apps/details?id=self.frota.guilherme.teste
